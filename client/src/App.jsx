@@ -15,7 +15,7 @@ import { Toaster } from 'react-hot-toast';
 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-axios.defaults.baseURL = 'https://finbrok-server.vercel.app';
+axios.defaults.baseURL = 'https://finbrok-server.vercel.appl';
 axios.defaults.withCredentials = true;
 
 //http://localhost:8080 
