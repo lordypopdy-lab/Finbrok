@@ -1,4 +1,5 @@
 import React from 'react'
+import "../utils/captcha.css";
 import toast from 'react-hot-toast'
 import Widget101 from '../components/Widget101'
 import { NavLink, Link } from 'react-router-dom'
@@ -8,12 +9,14 @@ import { eyeOff } from 'react-icons-kit/feather/eyeOff';
 import { eye } from 'react-icons-kit/feather/eye'
 import FadeLoader from 'react-spinners/FadeLoader';
 import axios from 'axios';
+import CustomCaptcha from "../components/CustomCaptcha";
 
 const Register = () => {
 
     const [icon, setIcon] = useState(eyeOff);
     const [type, setType] = useState('password');
     const [loading, setLoading] = useState(false);
+    const [captchaOk, setCaptchaOk] = useState(false);
     const [data, setData] = useState({ name: '', email: '', country: '', currency: '', account: '', password: '', comfirm_password: '' });
 
     const handleToggle = () => {
@@ -28,6 +31,10 @@ const Register = () => {
 
     const createUser = async (e) => {
         e.preventDefault();
+        if (!captchaOk) {
+            toast.error("Please verify CAPTCHA before logging in!");
+            return;
+          }
         setLoading(true);
 
         const {
@@ -78,6 +85,7 @@ const Register = () => {
         <>
             <div className="container-fluid ">
                 <Widget101 />
+                <CustomCaptcha onVerify={setCaptchaOk} />
                 <h3 className="card-title text-left text-warning mt-4 mb-3">| Register | Account |</h3>
                 <form onSubmit={createUser}>
                     <div className="form-group">

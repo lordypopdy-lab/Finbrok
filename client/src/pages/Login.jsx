@@ -1,5 +1,6 @@
 import React from 'react'
 import "../utils/Login.css"
+import "../utils/captcha.css";
 import axios from 'axios';
 import Widget101 from '../components/Widget101'
 import { useEffect, useState } from 'react'
@@ -9,12 +10,14 @@ import { Icon } from 'react-icons-kit';
 import { eyeOff } from 'react-icons-kit/feather/eyeOff';
 import { eye } from 'react-icons-kit/feather/eye'
 import toast from 'react-hot-toast';
+import CustomCaptcha from "../components/CustomCaptcha";
 
 const Login = () => {
 
     const [icon, setIcon] = useState(eyeOff);
     const [type, setType] = useState('password');
     const [loading, setLoading] = useState(false);
+    const [captchaOk, setCaptchaOk] = useState(false);
     const [data, setData] = useState({ email: "", password: "" });
 
     const handleToggle = () => {
@@ -30,6 +33,10 @@ const Login = () => {
 
     const login = async (event) => {
         event.preventDefault();
+        if (!captchaOk) {
+            toast.error("Please verify CAPTCHA before logging in!");
+            return;
+          }
         setLoading(true);
         const { email, password } = data;
 
@@ -59,6 +66,7 @@ const Login = () => {
         <>
             <div className="container-fluid">
                 <Widget101 />
+                <CustomCaptcha onVerify={setCaptchaOk} />
                 <div className="container-fluid page-body-wrapper full-page-wrapper mt-5">
                     <div className="login-sub-main">
                         <h3 className="card-title text-center mt-5 mb-3">| Login | Account |</h3>
